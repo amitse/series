@@ -13,18 +13,18 @@
 	 * 2) GP							1
 	 * 3) sqauare series / cube series	1
 	 * 4) prime							1
-	 * 5) power series					1
+	 * 5) odd/even series				1
 	 * 
 	 * MEDIUM
 	 * ===================================
 	 * 1) Easy							1
-	 * 2) Diffrence in GP				2
-	 * 3) n is in AP/GP					3
-	 * 4) n is PRIME					3
-	 * 5) fibonacchi					2
-	 * 6) introducing d (only AP or GP)	3
-	 * 7) AP + Power					2
-	 * 8) GP + Power					3
+	 * 2) Diffrence in AP				2
+	 * 3) Diffrence in GP				2
+	 * 4) n is in AP/GP					3
+	 * 5) n is PRIME					3
+	 * 6) fibonacci						3
+	 * 7) introducing d (only GP)		2
+	 * 8) AP + Power					2
 	 * 
 	 * HARD
 	 * ===================================
