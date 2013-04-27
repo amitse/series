@@ -1,7 +1,7 @@
 import java.util.Random;
 /**
  * @author Amit Sengupta
- * 
+ *
  */
 public class Question {
 	static final int EASY=1;
@@ -131,7 +131,7 @@ public class Question {
 							q[i] = a + i*c;
 					for (int i = 1; i < size; i=i+2)
 							q[i] = b + i*d;
-					explanation = "Alternate AP Common Difference of even terms = "+b +", Odd terms = " + d;
+					explanation = "Alternate AP Common Difference of even terms = "+b*2 +", Odd terms = " + d*2;
 			break;
 			
 			case 5: // odd/even series
@@ -183,16 +183,16 @@ public class Question {
 	 */
 	int[] medium()
 	{
-				/*
-				 * MEDIUM
-				 * ===================================
-				 * 1) Easy							1
-				 * 2) Difference in AP				2
-				 * 3) Difference in GP				2
-				 * 4) n is in AP/GP					3
-				 * 5) introducing d (only GP)		2
-				 * 6) AP + Power					2
-				*/
+	/**
+	 * MEDIUM
+	 * ===================================
+	 * 1) Easy							1
+	 * 2) Difference in AP				2
+	 * 3) Difference in GP				2
+	 * 4) n is in AP/GP					3
+	 * 5) introducing d (only GP)		2
+	 * 6) AP + Power					2
+	*/
 		marks = 1;
 		int type =new Random().nextInt(6)+1;  // Types 1 to 8
 		Random r = new Random();	
@@ -205,13 +205,11 @@ public class Question {
 			marks=2;
 					a = r.nextInt(5)+1;
 					b = r.nextInt(3)+2;
-					c = r.nextInt(2);
 					for (int i = 0; i < size; i++)
-						if(c==0)	q[i] = a+b*i;
-						else 		q[size-1-i]=a+b*i;
+						q[i] = a+b*i;
 					d = r.nextInt(10)+1;
 					for (int i = 0; i < size; i++)
-						q[i]+=d;
+						q[i]+=d*i;
 					
 					explanation = "The difference of consecutive terms are in AP";
 					return q;				
@@ -263,20 +261,20 @@ public class Question {
 			marks=2;
 					a = r.nextInt(5)+1;
 					b = r.nextInt(3)+2;
-					c = r.nextInt(2);
 					d = r.nextInt(10)+1;
 					for (int i = 0; i < size; i++)
-						if(c==0)	q[i] = a*(int)Math.pow(b,i)+d;
-						else 		q[size-1-i]=a*(int)Math.pow(b,i)+d;
-					explanation = "Subtract every element by " + d + " to get a GP with ratio " + b;
-				return q;
+						q[i] = (int)Math.pow(b,i)+d;
+					//explanation = "Subtract every element by " + d +  "; " +a + "*(" + b+ "^0) ,"+a + "*(" + b+ "^1) ,"+a + "*(" + b+ "^2) ,"+a + "*(" + b+ "^3) ...";
+					explanation = "Subtract every element by " + d +  ";  (" + b+ "^0) , (" + b+ "^1) , (" + b+ "^2) , (" + b+ "^3) ...";
+
+					return q;
 			case 6: //AP + Power
 			marks=2;
 					a = r.nextInt(5)+1;
 					b = r.nextInt(5)+1;
 					for (int i = 0; i < size; i++)
 						q[i] = (int)Math.pow(a + i*b,i);
-					explanation = "Raise each element by the power (1/n) where n = 0,1,2,3... you'll get an AP";
+					explanation = (a) + "^0, "+(a+b)+"^1, "+ (a+2*b)+"^2, "+ (a+3*b)+"^3..... " ;
 				return q;
 		}
 		return q;
@@ -288,17 +286,17 @@ public class Question {
 
 	int[] difficult()
 	{
-				/*
-				 * Difficult
-				 * ===================================
-				 * 1) Medium						2
-				 * 2) AGP							4
-				 * 5) AP + GP + POWER + D			4
-				 * 4) n is PRIME					3
-				 * 5) fibonacci						3
-				 */ 
+	/**
+	 * Difficult
+	 * ===================================
+	 * 1) Medium						2
+	 * 2) AGP							4
+	 * 5) AP + GP + POWER + D			4
+	 * 4 5 6) n is PRIME				3
+	 * 7 8 9) fibonacci					3
+	 */ 
 		marks = 2;
-		int type =new Random().nextInt(3)+1;  // Types 1 to 6
+		int type =new Random().nextInt(9)+1;  // Types 1 to 9
 		Random r = new Random();	
 		int a=0,b=0,c=0,d=0;
 		switch(type)
@@ -332,7 +330,7 @@ public class Question {
 				}
 				explanation = "("+a+" + n * "+b+") * "+c+"^n  + "+d+" where n = 0,1,2,3...";
 				return q;
-			case 4:// Prime
+			case 4:case 5:case 6:// Prime
 				marks=3;
 					int[] prime = {2,3,5,7,11,13,17,19,23,29};
 					a = r.nextInt(2);
@@ -351,7 +349,7 @@ public class Question {
 
 					}
 					return q;
-				case 5: // fibonacci
+				case 7:case 8:case 9: // fibonacci
 				marks=3;
 					int[] fibonacci = {0,1,1,2,3,5,8,13,21,34};
 					a = r.nextInt(2);
