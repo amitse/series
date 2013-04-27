@@ -1,4 +1,8 @@
 import java.util.Random;
+/**
+ * @author Amit Sengupta
+ * 
+ */
 public class Question {
 	static final int EASY=1;
 	static final int MEDIUM=2;
@@ -10,6 +14,10 @@ public class Question {
 	int marks;
 	String explanation;
 	
+	/**
+	 * @param size The number of Elements in the sequence. It cannot be more than 10
+	 * 
+	 */
 	Question (int size)
 	{
 		if (size>10) size =10;
@@ -17,16 +25,26 @@ public class Question {
 		q= new int[size];
 	}
 
+	/**
+	 * @return A number associated with the difficulty level of the question with respect to other questions.
+	 */
 	int getMarks()
 	{
 		return marks;
 	}
 	
+	/**
+	 * @return A String containing detailed explanation about the series
+	 */
 	String getExplanation()
 	{
 		return explanation;
 	}
 	
+	/**
+	 * @param difficulty Difficulty level of the question. It can be one among Question.EASY, Question.MEDIUM, Question.DIFFICULT or Question.RANDOM
+	 * @return an integer array of size 'size' which will contain the question.
+	 */
 	int[] generateQuestion (int difficulty)
 	{
 		if (difficulty == RANDOM)
@@ -42,23 +60,26 @@ public class Question {
 		return q;
 	}
 	
+	/**
+	 * @return Integer array of size "size" containing an easy question.
+	 */
 	int[] easy()
 	{
-	/**
-	 * ===================================
-	 * Easy		(a+ n*b) * c ^k + d
-	 * ===================================
-	 * question type					Marks
-	 * 1) AP							1
-	 * 2) GP							1
-	 * 3) square series / cube series	1
-	 * 4) alternate AP's				1
-	 * 5) odd/even series				1 
-	 */ 
+				/* ===================================
+	  			 * Easy		(a+ n*b) * c ^k + d
+	  			 * ===================================
+	  			 * question type					Marks
+	  			 * 1) AP							1
+	  			 * 2) GP							1
+	  			 * 3) square series / cube series	1
+	  			 * 4) alternate AP's				1
+	  			 * 5) odd/even series				1 
+	  	*/
+		
 		marks = 1;
 		int type =new Random().nextInt(5)+1;  // Types 1 to 5
 		Random r = new Random();	
-		int a=0,b=0,c=0,d=0,e=0,n=0;
+		int a=0,b=0,c=0,d=0,e=0;
 		switch(type)
 		{
 			case 1: // AP
@@ -156,24 +177,26 @@ public class Question {
 		}
 		return q;
 	}
-	
+
+	/**
+	 * @return Integer array of size "size" containing a moderately difficult question.
+	 */
 	int[] medium()
 	{
-	/**
-	 * MEDIUM
-	 * ===================================
-	 * 1) Easy							1
-	 * 2) Diffrence in AP				2
-	 * 3) Diffrence in GP				2
-	 * 4) n is in AP/GP					3
-	 * 5) introducing d (only GP)		2
-	 * 6) AP + Power					2
-	*/
+				/*
+				 * MEDIUM
+				 * ===================================
+				 * 1) Easy							1
+				 * 2) Difference in AP				2
+				 * 3) Difference in GP				2
+				 * 4) n is in AP/GP					3
+				 * 5) introducing d (only GP)		2
+				 * 6) AP + Power					2
+				*/
 		marks = 1;
 		int type =new Random().nextInt(6)+1;  // Types 1 to 8
 		Random r = new Random();	
-		int a=0,b=0,c=0,d=0,e=0,n=0;
-		q[10]=type;
+		int a=0,b=0,c=0,d=0;
 		switch(type)
 		{
 			case 1: 
@@ -259,21 +282,25 @@ public class Question {
 		return q;
 	}
 	
+	/**
+	 * @return Integer array of size "size" containing a difficult question.
+	 */
+
 	int[] difficult()
 	{
-	/**
-	 * Difficult
-	 * ===================================
-	 * 1) Medium						2
-	 * 2) AGP							4
-	 * 5) AP + GP + POWER + D			4
-	 * 4) n is PRIME					3
-	 * 5) fibonacci						3
-	 */ 
+				/*
+				 * Difficult
+				 * ===================================
+				 * 1) Medium						2
+				 * 2) AGP							4
+				 * 5) AP + GP + POWER + D			4
+				 * 4) n is PRIME					3
+				 * 5) fibonacci						3
+				 */ 
 		marks = 2;
 		int type =new Random().nextInt(3)+1;  // Types 1 to 6
 		Random r = new Random();	
-		int a=0,b=0,c=0,d=0,e=0,n=0;
+		int a=0,b=0,c=0,d=0;
 		switch(type)
 		{
 			case 1: // medium
@@ -347,3 +374,4 @@ public class Question {
 		return q;
 	}
 }
+
