@@ -47,6 +47,9 @@ public class Question {
 	 */
 	int[] generateQuestion (int difficulty)
 	{
+		explanation="";
+		q = new int[size];
+		
 		if (difficulty == RANDOM)
 		{
 			difficulty = new Random().nextInt(3)+1;
@@ -66,17 +69,19 @@ public class Question {
 	int[] easy()
 	{
 				/* ===================================
-	  			 * Easy		(a+ n*b) * c ^k + d
+	  			 * Easy		
 	  			 * ===================================
 	  			 * question type					Marks
 	  			 * 1) AP							1
 	  			 * 2) GP							1
 	  			 * 3) square series / cube series	1
 	  			 * 4) alternate AP's				1
-	  			 * 5) odd/even series				1 
+	  			 * 5) alternate GP's				1 
 	  	*/
-		
 		marks = 1;
+		
+while(!isValidSequence()){
+		explanation="";
 		int type =new Random().nextInt(5)+1;  // Types 1 to 5
 		Random r = new Random();	
 		int a=0,b=0,c=0,d=0,e=0;
@@ -90,13 +95,18 @@ public class Question {
 						if(c==0) 
 						{
 							q[i] = a + i*b;
-							explanation = "AP: Common difference is "+b;
 						}
 						else 
 						{
 							q[size-i-1]=a + i*b; 
-							explanation = "AP: Common difference is -"+b;
 						}
+
+					explain();
+					explanation = explanation + "\nAirithmatic Progression:\nThe difference of any two consicutive terms is ";					
+						if (c==0) 
+							explanation = explanation + b +"";
+						else
+							explanation = explanation +"-"+ b;							
 						break;
 			case 2: // GP
 					a = r.nextInt(5)+1;
@@ -105,76 +115,74 @@ public class Question {
 					for (int i = 0; i < size; i++)
 						if(c==0)	q[i] = a*(int)Math.pow(b,i);
 						else 		q[size-1-i]=a*(int)Math.pow(b,i);
-					explanation= "GP: Common factor is " +b;
+
+					explain();
+					explanation = explanation + "\nGeometric Progression:\nThe ratio of any two consicutive terms is ";					
+						if (c==0) 
+							explanation = explanation + b +"";
+						else
+							explanation = explanation + "(1/" + b +")";							
 					break;
 			case 3: // square series / cube series
 					a = r.nextInt(2);
 					b = r.nextInt(2)+2;
 					if(a==0){
-						for (int i = 0; i < size; i++)
+						for (int i = 0; i < size; i++){
 							q[i] = (int)Math.pow(b,i);
-						explanation=b+"^0 , "+b+"^1 , "+b+"^2 , "+b+"^3 ...";
+							if(i!=size-1)
+								explanation += q[i] + ", ";
+							else
+								explanation += q[i] + ":";						
+							
+							}
+						explanation+="\nPower series:\n" + b+"^0 , "+b+"^1 , "+b+"^2 , "+b+"^3, "+b+"^4 ...";
 					}
 					else{
-						for (int i = 0; i < size; i++)
+						for (int i = 0; i < size; i++){
 							q[i] = (int)Math.pow(i,b);
-						explanation="0^"+b+" + 1^"+b+" + 2^"+b+" ...";
+							if(i!=size-1)
+								explanation += q[i] + ", ";
+							else
+								explanation += q[i] + ":";											
+						}
+						explanation+="\nPower series:\n" +"0^"+b+" , 1^"+b+" , 2^"+b+" , 3^"+b+" , 4^"+b+" ...";
+					
 					}
 					break;
-			case 4: //alternate ap's
+			case 4:
+					//alternate ap's
 					a = r.nextInt(10)+1;
 					b = r.nextInt(10)+1;
 					c = r.nextInt(10)+1;
 					d = r.nextInt(10)+1;
+					if(c==d)d++;
 					
 					for (int i = 0; i < size; i=i+2)
-							q[i] = a + i*c;
+							q[i] = a + (i/2)*c;
 					for (int i = 1; i < size; i=i+2)
-							q[i] = b + i*d;
-					explanation = "Alternate AP Common Difference of even terms = "+b*2 +", Odd terms = " + d*2;
+							q[i] = b + ((i/2)+1)*d;
+					explain();
+					explanation += "\nAlternate terms are in Arithematic Progression:\nCommon Difference of Odd terms = "+c +", Even terms = " + d;
 			break;
-			
-			case 5: // odd/even series
-					a = r.nextInt(2); // odd / even
-					b = r.nextInt(2); // ap/gp
-					e = r.nextInt(10)+1;
+			case 5:
+					//alternate gp's
+					a = r.nextInt(10)+1;
+					b = r.nextInt(3)+2;
 					c = r.nextInt(10)+1;
-					d = r.nextInt(2)+2;
-					if(a==0)
-					{
-						for (int i = 0; i < size*2; i=i+2){
-							if(b==0) 	
-								{
-									q[i/2] = e + i*c;
-								}
-							else 
-								{
-								q[i/2] = e * (int)Math.pow(d,i);
-								}
-						}
-						if (b==0) explanation=e +" + even *"+ c + ", where even = 0,2,4,6...";
-						else
-						explanation=e + " * "+ d + "^ even, where even =  0,2,4,6...";
-						
-					}
-					else
-					{
-						for (int i = 1; i < size*2; i=i+2)
-							if(b==0) 
-								{
-									q[(i-1)/2] = e + i*c;
-								}
-								
-							else 
-								{
-									q[(i-1)/2] = e * (int)Math.pow(d,i);
-								}
-					if (b==0) explanation=e +" + odd *"+ c + ", where odd = 1,3,5,7...";
-					else
-					explanation=e + " * "+ d + "^ odd, where odd =  1,3,5,7...";
-					}
-					break;
+					d = r.nextInt(3)+2;
+					if(c==d)d++;
+					
+					for (int i = 0; i < size; i=i+2)
+							q[i] = a * (int)Math.pow(c, (i/2));
+					for (int i = 1; i < size; i=i+2)
+							q[i] = b * (int)Math.pow(d,((i/2)+1));
+					explain();
+					explanation += "\nAlternate terms are in Geometric Progression:\nCommon Ratio of Odd terms = "+c +", Even terms = " + d;
+			break;
+
+
 		}
+	}
 		return q;
 	}
 
@@ -189,11 +197,13 @@ public class Question {
 	 * 1) Easy							1
 	 * 2) Difference in AP				2
 	 * 3) Difference in GP				2
-	 * 4) n is in AP/GP					3
+	 * 4) n is in AP/GP					2
 	 * 5) introducing d (only GP)		2
-	 * 6) AP + Power					2
+	 * 6) Based on first element		2
 	*/
 		marks = 1;
+	while(!isValidSequence()){
+		explanation="";
 		int type =new Random().nextInt(6)+1;  // Types 1 to 8
 		Random r = new Random();	
 		int a=0,b=0,c=0,d=0;
@@ -203,58 +213,64 @@ public class Question {
 				return easy();
 			case 2: //difference in AP
 			marks=2;
-					a = r.nextInt(5)+1;
-					b = r.nextInt(3)+2;
-					for (int i = 0; i < size; i++)
-						q[i] = a+b*i;
-					d = r.nextInt(10)+1;
-					for (int i = 0; i < size; i++)
-						q[i]+=d*i;
-					
-					explanation = "The difference of consecutive terms are in AP";
-					return q;				
-			case 3: //Difference in gp
-			marks=2;
-					a = r.nextInt(5)+1;
-					b = r.nextInt(3)+2;
-					c = r.nextInt(2);
-					for (int i = 0; i < size; i++)
-						if(c==0)	q[i] = a*(int)Math.pow(b,i);
-						else 		q[size-1-i]=a*(int)Math.pow(b,i);
-					d = r.nextInt(10)+1;
-					for (int i = 0; i < size; i++)
-						q[i]+=d;
-					explanation = "The difference of consecutive terms are in AP";
+					a = r.nextInt(10)+1;
+					b = r.nextInt(7)+2;
+					c = r.nextInt(10)+1;
+					q[0]=a;
+					for (int i = 1; i < size; i++)
+						q[i] = q[i-1] + c+b*i;
 
-					return q;
-			case 4: // n is in ap/gp
-			marks=3;
-					a = r.nextInt(2); //ap gp
-					if(a==0)//ap
-						{
+					explain();
+					explanation += "\nThe difference of consecutive terms, i.e:\n(";
+					for (int i = 1; i < size; i++)
+					{
+							if(i!=size-1)
+								explanation += q[i]-q[i-1] + ", ";
+							else
+								explanation += q[i]-q[i-1] + ") \nis in Arithematic Progression where the difference of any two consicutive terms is " + b;						
+					}					
+					
+					break;				
+			case 3: //Difference in gp
+					marks=2;
+					a = r.nextInt(10)+1;
+					b = r.nextInt(3)+2;
+					c = r.nextInt(10)+1;
+					q[0]=a;
+					for (int i = 1; i < size; i++)
+						q[i] = q[i-1] + c* (int)Math.pow(b,i);
+
+					explain();
+					explanation += "\nThe difference of consecutive terms, i.e:\n(";
+					for (int i = 1; i < size; i++)
+					{
+							if(i!=size-1)
+								explanation += q[i]-q[i-1] + ", ";
+							else
+								explanation += q[i]-q[i-1] + ") \nis in Geometric Progression where the ratio of any two consicutive terms is " + b;						
+					}
+					break;					
+			case 4: // n is in gp
+							marks=2;
 							a = r.nextInt(10)+1;
 							b = r.nextInt(3)+1;
 							for (int i = 0; i < size; i++)
 								q[i] = a*(int)Math.pow(b,i);
 							a = r.nextInt(10)+1;
-							b = r.nextInt(3)+1;
 							for (int i = 0; i < size; i++)
-								q[i] = a + q[i]*b;
-						explanation="Subtract each term with "+ a + " and then divide by "+ b + ", you'll get a GP";
-						}
-					else
-						{
-							a = r.nextInt(10)+1;
-							b = r.nextInt(3)+1;
+								q[i] = a + q[i];
+						
+					explain();
+						explanation+="\nSubtract each term by "+ a + ":\n(";
 							for (int i = 0; i < size; i++)
-								q[i] = a + i*b;
-							a = r.nextInt(10)+1;
-							b = r.nextInt(3)+1;
-							for (int i = 0; i < size; i++)
-								q[i] = a * (int)Math.pow(q[i],b);
-						explanation="Divide each term by "+ a + " and then raise it to the power (1/"+ b + "), you'll get an AP";
-						}
-				return q;
+							{
+									if(i!=size-1)
+										explanation += q[i]-a + ", ";
+									else
+										explanation += q[i]-a + ")";						
+							}
+						explanation+="\nis in a Geometric progression where the ratio of any two consicutive terms is " + b;				
+				break;
 
 			
 			case 5: //introducing d (only GP)
@@ -264,19 +280,80 @@ public class Question {
 					d = r.nextInt(10)+1;
 					for (int i = 0; i < size; i++)
 						q[i] = (int)Math.pow(b,i)+d;
-					//explanation = "Subtract every element by " + d +  "; " +a + "*(" + b+ "^0) ,"+a + "*(" + b+ "^1) ,"+a + "*(" + b+ "^2) ,"+a + "*(" + b+ "^3) ...";
-					explanation = "Subtract every element by " + d +  ";  (" + b+ "^0) , (" + b+ "^1) , (" + b+ "^2) , (" + b+ "^3) ...";
-
-					return q;
-			case 6: //AP + Power
-			marks=2;
-					a = r.nextInt(5)+1;
-					b = r.nextInt(5)+1;
+					
+					explain();
+					explanation += "\nSubtract every element by " + d +  ":\n";
 					for (int i = 0; i < size; i++)
-						q[i] = (int)Math.pow(a + i*b,i);
-					explanation = (a) + "^0, "+(a+b)+"^1, "+ (a+2*b)+"^2, "+ (a+3*b)+"^3..... " ;
-				return q;
+							{
+									if(i!=size-1)
+										explanation += q[i]-d + ", ";
+									else
+										explanation += q[i]-d + ")";						
+							}
+					
+					explanation+= "\nWhich is  (" + b+ "^0) , (" + b+ "^1) , (" + b+ "^2) , (" + b+ "^3) ...";
+					break;
+			case 6: //Based on previous element;
+			marks=2;
+					a = r.nextInt(4);
+					
+					if(a==0)//square of prev no +/- something
+					{
+						a = r.nextInt(3)+1;
+						b = r.nextInt(10)-5;if (b==0) b=2;
+						q[1]=a;
+						for (int i = 1; i < size; i++)
+							q[i] = q[i-1]*q[i-1] + b;
+						
+						explain();
+						String s = b>0?"+":"";
+						explanation += "\nEvery number in this sequence is equal to (square of previous number)"+s+" "+b;
+						
+
+					}
+					else if (a==1)// +/- something, square of that number 
+					{
+						a = r.nextInt(3)+1;
+						b = r.nextInt(10)-5;if (b==0) b=2;
+						q[1]=a;
+						for (int i = 1; i < size; i++)
+							q[i] = (q[i-1]+b)*(q[i-1] + b);
+						
+						explain();
+						String s = b>0?"+":"";
+						explanation += "\nEvery number in this sequence is equal to square of (previous number "+s+" "+b+")";
+					}
+					else if (a==2) // +/- prev no with something, multily something
+					{
+						a = r.nextInt(10)+1;
+						b = r.nextInt(10)-5;if (b==0) b=2;
+						c = r.nextInt(10)-5;if (c==0) c=2;
+						q[1]=a;
+						for (int i = 1; i < size; i++)
+							q[i] = (q[i-1]+b)*c;
+						
+						explain();
+						String s = b>0?"+":"";
+						explanation += "\nEvery number in this sequence is equal to (previous number "+s+" "+b+") * "+c;			
+					}
+					else//multily prev number with something, +/- something
+					{
+						a = r.nextInt(10)+1;
+						b = r.nextInt(10)-5;if (b==0) b=2;
+						c = r.nextInt(10)-5;if (c==0) c=2;
+						q[1]=a;
+						for (int i = 1; i < size; i++)
+							q[i] = q[i-1]*c+b;
+						
+						explain();
+						String s = b>0?"+":"";
+						explanation += "\nEvery number in this sequence is equal to (previous number * " + c + ")" + s + b;			
+						
+					}
+						
+					break;
 		}
+	}
 		return q;
 	}
 	
@@ -296,6 +373,8 @@ public class Question {
 	 * 7 8 9) fibonacci					3
 	 */ 
 		marks = 2;
+while(!isValidSequence()){
+		explanation="";
 		int type =new Random().nextInt(9)+1;  // Types 1 to 9
 		Random r = new Random();	
 		int a=0,b=0,c=0,d=0;
@@ -315,7 +394,7 @@ public class Question {
 					q[i]= (a+i*b) * (int)Math.pow(c,i);
 				}
 				explanation = "("+a+" + n * "+b+") * "+c+"^n where n = 0,1,2,3...";
-				return q;
+				break;
 				
 			case 3: //AGPD
 				marks=4;
@@ -329,7 +408,7 @@ public class Question {
 					q[i]= (a+i*b) * (int)Math.pow(c,i) +d;
 				}
 				explanation = "("+a+" + n * "+b+") * "+c+"^n  + "+d+" where n = 0,1,2,3...";
-				return q;
+				break;
 			case 4:case 5:case 6:// Prime
 				marks=3;
 					int[] prime = {2,3,5,7,11,13,17,19,23,29};
@@ -348,7 +427,7 @@ public class Question {
 					explanation = b + " * prime ^ " + c + " where prime = 2,3,5,7,11...";
 
 					}
-					return q;
+					break;
 				case 7:case 8:case 9: // fibonacci
 				marks=3;
 					int[] fibonacci = {0,1,1,2,3,5,8,13,21,34};
@@ -366,10 +445,28 @@ public class Question {
 							q[i] = b*(int)Math.pow(fibonacci[i],c);
 					explanation = b + " * fibonacci ^ " + c + " where fibonacci = 0,1,1,2,3...";
 					}
-					return q;
+					break;
 			}
-		
+		}
 		return q;
+	}
+	
+	private boolean isValidSequence()
+	{
+		if (q[size-1]==q[0]) return false;
+		if (q[size-1]>999999 || q[size-1]<-999999 ) return false;
+ 		return true;
+	}
+	
+	private void explain()
+	{
+		for (int i = 0; i < size; i++)
+		{
+				if(i!=size-1)
+					explanation += q[i] + ", ";
+				else
+					explanation += q[i] + ":";						
+		}
 	}
 }
 
