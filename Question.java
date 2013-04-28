@@ -367,15 +367,15 @@ while(!isValidSequence()){
 	 * Difficult
 	 * ===================================
 	 * 1) Medium						2
-	 * 2) AGP							4
-	 * 5) AP + GP + POWER + D			4
-	 * 4 5 6) n is PRIME				3
-	 * 7 8 9) fibonacci					3
+	 * 2) AGP Product					4
+	 * 5) AGP Sum						4
+	 * 4 5) n is PRIME					3
+	 * 6 7) fibonacci					3
 	 */ 
 		marks = 2;
 while(!isValidSequence()){
 		explanation="";
-		int type =new Random().nextInt(9)+1;  // Types 1 to 9
+		int type =new Random().nextInt(7)+1;  // Types 1 to 9
 		Random r = new Random();	
 		int a=0,b=0,c=0,d=0;
 		switch(type)
@@ -383,41 +383,62 @@ while(!isValidSequence()){
 			case 1: // medium
 				return medium();
 			
-			case 2: //AGP
+			case 2: //AGP Product
 				marks=4;
 				a = r.nextInt(10)+1;
-				b = r.nextInt(10)+1;
-				c = r.nextInt(3)+1;
+				b = r.nextInt(2)+1;
+				c = r.nextInt(2)+2;
 				
 				for (int i = 0; i < size; i++)
 				{
 					q[i]= (a+i*b) * (int)Math.pow(c,i);
 				}
-				explanation = "("+a+" + n * "+b+") * "+c+"^n where n = 0,1,2,3...";
+				explain();
+				explanation+="\nThis sequence can be rewritten as:\n(";
+				for (int i = 0; i < size; i++)
+				{
+					if(i!=size-1)
+					explain+=(a+i*b)+ " * " (int)Math.pow(c,i)+", ";
+				else
+					explain+=(a+i*b)+ " * " (int)Math.pow(c,i)+"): ";
+				}
+				explanation += "Where the 1st factor is in an arithematic progression, the difference of any two consicutive terms is " + b;
+				explanation += "\And the 2nd factor is in an geometric progression, the ratio of any two consicutive terms is " + c;
 				break;
 				
-			case 3: //AGPD
+			case 3: //AGP Sum
 				marks=4;
 				a = r.nextInt(10)+1;
-				b = r.nextInt(10)+1;
-				d = r.nextInt(10)+1;
-				c = r.nextInt(3)+1;
+				b = r.nextInt(2)+1;
+				c = r.nextInt(2)+2;
 				
 				for (int i = 0; i < size; i++)
 				{
-					q[i]= (a+i*b) * (int)Math.pow(c,i) +d;
+					q[i]= (a+i*b) + (int)Math.pow(c,i);
 				}
-				explanation = "("+a+" + n * "+b+") * "+c+"^n  + "+d+" where n = 0,1,2,3...";
+				explain();
+				explanation+="\nThis sequence can be rewritten as:\n(";
+				for (int i = 0; i < size; i++)
+				{
+					if(i!=size-1)
+					explain+=(a+i*b)+ " + " (int)Math.pow(c,i)+", ";
+				else
+					explain+=(a+i*b)+ " + " (int)Math.pow(c,i)+"): ";
+				}
+				explanation += "Where the 1st term is in an arithematic progression, the difference of any two consicutive terms is " + b;
+				explanation += "\And the 2nd term is in an geometric progression, the ratio of any two consicutive terms is " + c;
 				break;
-			case 4:case 5:case 6:// Prime
+			case 4:case 5:// Prime
 				marks=3;
 					int[] prime = {2,3,5,7,11,13,17,19,23,29};
 					a = r.nextInt(2);
 					b = r.nextInt(10)+1;
 					c = r.nextInt(5)+1;
-					if(a==0){
+					if(a==0) // prime AP
+					{
 						for (int i = 0; i < size; i++)
 							q[i] = b + prime[i]*c;
+					explain();
 					explanation = b +" prime * " + c + " where prime = 2,3,5,7,11...";
 					}
 					else{
@@ -428,7 +449,7 @@ while(!isValidSequence()){
 
 					}
 					break;
-				case 7:case 8:case 9: // fibonacci
+				case 7:case 6: // fibonacci
 				marks=3;
 					int[] fibonacci = {0,1,1,2,3,5,8,13,21,34};
 					a = r.nextInt(2);
